@@ -106,9 +106,9 @@ const Home = () => {
           </div>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 animate-slideUp">
-            Solusi Teknologi Modern <br />
+            Solusi Teknologi Modern<br />
             <span className="bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">
-              bersama {company?.company_name || "Kami"}
+              Kadilance
             </span>
           </h1>
 
