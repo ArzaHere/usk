@@ -260,9 +260,6 @@ const Header = () => {
           <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-purple-50">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg transform hover:rotate-12 transition-transform duration-300">
-                  <span className="text-white font-bold text-xl">L</span>
-                </div>
                 <div>
                   <h2 className="font-bold text-gray-800">Menu</h2>
                   <p className="text-xs text-gray-500">Navigasi Website</p>

@@ -8,6 +8,15 @@ const Home = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    address: "",
+    note: "",
+  });
+  const [focusedField, setFocusedField] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -35,6 +44,31 @@ const Home = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  const handleWhatsAppOrder = () => {
+    setIsSubmitting(true);
+
+    const message = `Halo, saya ingin memesan:
+  
+*Produk:* ${selectedProduct.name}
+${selectedProduct.price ? `*Harga:* Rp ${Number(selectedProduct.price).toLocaleString("id-ID")}` : ""}
+
+*Detail Pemesan:*
+Nama: ${form.name}
+No. WhatsApp: ${form.phone}
+${form.address ? `Alamat: ${form.address}` : ""}
+${form.note ? `\nCatatan: ${form.note}` : ""}`;
+
+    const whatsappUrl = `https://wa.me/6285711562563?text=${encodeURIComponent(message)}`;
+
+    window.open(whatsappUrl, "_blank");
+
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSelectedProduct(null);
+      setForm({ name: "", phone: "", address: "", note: "" });
+    }, 1000);
+  };
 
   const fetchData = async () => {
     try {
@@ -100,13 +134,11 @@ const Home = () => {
           }`}
         >
           <div className="mb-6 inline-block">
-            <span className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold border border-white/20 animate-fadeIn">
-              ✨ Solusi Digital Terpercaya
-            </span>
           </div>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 animate-slideUp">
-            Solusi Teknologi Modern<br />
+            Solusi Teknologi Modern
+            <br />
             <span className="bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">
               Kadilance
             </span>
@@ -181,7 +213,7 @@ const Home = () => {
       <section className="py-20 bg-white relative">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12 scroll-animate">
               <span className="text-blue-600 font-semibold text-sm uppercase tracking-wider">
                 Tentang Kami
@@ -189,37 +221,165 @@ const Home = () => {
               <h2 className="text-4xl md:text-5xl font-bold mt-2 mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Tentang Perusahaan
               </h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">
+                Mengenal lebih dekat Kadilance dan perjalanan kami dalam dunia
+                teknologi
+              </p>
             </div>
 
-            <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 md:p-12 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 scroll-animate">
-              <div className="flex items-start">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+            <div className="grid md:grid-cols-2 gap-8 items-center scroll-animate">
+              {/* Image Side */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl transform rotate-3 group-hover:rotate-6 transition-transform duration-300"></div>
+                <div className="relative bg-white rounded-2xl overflow-hidden shadow-xl">
+                  {company && company.logo_url ? (
+                    <img
+                      src={company.logo_url}
+                      alt="Kadilance Company"
+                      className="w-full h-96 object-cover"
                     />
-                  </svg>
+                  ) : (
+                    <div className="w-full h-96 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                      <div className="text-center text-white">
+                        <svg
+                          className="w-24 h-24 mx-auto mb-4 opacity-80"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                          />
+                        </svg>
+                        <h3 className="text-2xl font-bold">Kadilance</h3>
+                        <p className="text-blue-100">Solusi Teknologi Modern</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                    Visi Kami
-                  </h3>
-                  <p className="text-gray-600 text-lg leading-relaxed">
-                    Kami adalah perusahaan teknologi informasi yang berfokus
-                    pada penyediaan solusi digital yang inovatif, aman, dan
-                    berkelanjutan. Dengan pendekatan profesional dan berbasis
-                    kebutuhan klien, kami membantu bisnis meningkatkan efisiensi
-                    serta daya saing melalui teknologi.
-                  </p>
+              </div>
+
+              {/* Content Side */}
+              <div className="space-y-6">
+                <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                  <div className="flex items-start">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                      <svg
+                        className="w-6 h-6 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-800 mb-2">
+                        Inovasi & Kreativitas
+                      </h3>
+                      <p className="text-gray-600 leading-relaxed">
+                        Kami menghadirkan solusi digital yang inovatif dan
+                        kreatif untuk membantu bisnis Anda berkembang di era
+                        digital.
+                      </p>
+                    </div>
+                  </div>
                 </div>
+
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                  <div className="flex items-start">
+                    <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                      <svg
+                        className="w-6 h-6 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-800 mb-2">
+                        Tim Profesional
+                      </h3>
+                      <p className="text-gray-600 leading-relaxed">
+                        Didukung oleh tim yang berpengalaman dan profesional
+                        dalam bidang teknologi informasi dan pengembangan
+                        sistem.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                  <div className="flex items-start">
+                    <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-emerald-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                      <svg
+                        className="w-6 h-6 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-800 mb-2">
+                        Terpercaya & Aman
+                      </h3>
+                      <p className="text-gray-600 leading-relaxed">
+                        Keamanan dan kepercayaan klien adalah prioritas utama
+                        kami dalam setiap project yang dikerjakan.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Stats Section */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 scroll-animate">
+              <div className="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                <div className="text-4xl font-bold text-blue-600 mb-2">50+</div>
+                <div className="text-gray-600 font-semibold">
+                  Project Selesai
+                </div>
+              </div>
+              <div className="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                <div className="text-4xl font-bold text-purple-600 mb-2">
+                  30+
+                </div>
+                <div className="text-gray-600 font-semibold">Klien Puas</div>
+              </div>
+              <div className="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                <div className="text-4xl font-bold text-green-600 mb-2">5+</div>
+                <div className="text-gray-600 font-semibold">
+                  Tahun Pengalaman
+                </div>
+              </div>
+              <div className="text-center p-6 bg-gradient-to-br from-pink-50 to-pink-100 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                <div className="text-4xl font-bold text-pink-600 mb-2">
+                  24/7
+                </div>
+                <div className="text-gray-600 font-semibold">Support</div>
               </div>
             </div>
           </div>
@@ -291,27 +451,233 @@ const Home = () => {
                       <p className="text-blue-600 font-bold text-xl">
                         Rp {Number(product.price).toLocaleString("id-ID")}
                       </p>
-                      <button className="text-blue-600 hover:text-blue-800 transform group-hover:translate-x-1 transition-transform">
-                        <svg
-                          className="w-6 h-6"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
+                      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <button
+                          onClick={() => setSelectedProduct(product)}
+                          className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"
-                          />
-                        </svg>
-                      </button>
+                          Pesan
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>
               </div>
             ))}
           </div>
+
+          {/* Order Modal */}
+          {selectedProduct && (
+            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
+              <div
+                className="bg-white rounded-2xl w-full max-w-lg shadow-2xl animate-scale-in relative overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Decorative Background */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full -translate-y-32 translate-x-32 opacity-50"></div>
+
+                {/* Header */}
+                <div className="relative z-10 bg-gradient-to-r from-green-600 to-emerald-600 p-6 text-white">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <h2 className="text-2xl font-bold mb-2">Pesan Produk</h2>
+                      <p className="text-green-100 text-sm">
+                        {selectedProduct.name}
+                      </p>
+                      {selectedProduct.price && (
+                        <div className="mt-3 inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg">
+                          <span className="text-white font-bold text-lg">
+                            Rp{" "}
+                            {Number(selectedProduct.price).toLocaleString(
+                              "id-ID",
+                            )}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => setSelectedProduct(null)}
+                      className="w-10 h-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110 hover:rotate-90"
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Form */}
+                <div className="p-6 relative z-10">
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleWhatsAppOrder();
+                    }}
+                    className="space-y-4"
+                  >
+                    <div className="relative">
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        Nama Lengkap <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Masukkan nama lengkap"
+                        value={form.name}
+                        onChange={(e) =>
+                          setForm({ ...form, name: e.target.value })
+                        }
+                        onFocus={() => setFocusedField("name")}
+                        onBlur={() => setFocusedField(null)}
+                        required
+                        className={`w-full px-4 py-3 border-2 rounded-xl transition-all duration-300 focus:outline-none ${
+                          focusedField === "name"
+                            ? "border-green-500 shadow-lg shadow-green-100"
+                            : "border-gray-200 hover:border-gray-300"
+                        }`}
+                      />
+                      {focusedField === "name" && (
+                        <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-green-500 to-emerald-500 animate-expand"></div>
+                      )}
+                    </div>
+
+                    <div className="relative">
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        No. WhatsApp <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="tel"
+                        placeholder="08XXX..."
+                        value={form.phone}
+                        onChange={(e) =>
+                          setForm({ ...form, phone: e.target.value })
+                        }
+                        onFocus={() => setFocusedField("phone")}
+                        onBlur={() => setFocusedField(null)}
+                        required
+                        className={`w-full px-4 py-3 border-2 rounded-xl transition-all duration-300 focus:outline-none ${
+                          focusedField === "phone"
+                            ? "border-green-500 shadow-lg shadow-green-100"
+                            : "border-gray-200 hover:border-gray-300"
+                        }`}
+                      />
+                      {focusedField === "phone" && (
+                        <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-green-500 to-emerald-500 animate-expand"></div>
+                      )}
+                    </div>
+
+                    <div className="relative">
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        Alamat Pengiriman
+                      </label>
+                      <textarea
+                        placeholder="Alamat lengkap untuk pengiriman (opsional)"
+                        value={form.address}
+                        onChange={(e) =>
+                          setForm({ ...form, address: e.target.value })
+                        }
+                        onFocus={() => setFocusedField("address")}
+                        onBlur={() => setFocusedField(null)}
+                        rows="2"
+                        className={`w-full px-4 py-3 border-2 rounded-xl transition-all duration-300 focus:outline-none resize-none ${
+                          focusedField === "address"
+                            ? "border-green-500 shadow-lg shadow-green-100"
+                            : "border-gray-200 hover:border-gray-300"
+                        }`}
+                      />
+                      {focusedField === "address" && (
+                        <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-green-500 to-emerald-500 animate-expand"></div>
+                      )}
+                    </div>
+
+                    <div className="relative">
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        Catatan Pesanan
+                      </label>
+                      <textarea
+                        placeholder="Tambahkan catatan untuk pesanan Anda (opsional)"
+                        value={form.note}
+                        onChange={(e) =>
+                          setForm({ ...form, note: e.target.value })
+                        }
+                        onFocus={() => setFocusedField("note")}
+                        onBlur={() => setFocusedField(null)}
+                        rows="3"
+                        className={`w-full px-4 py-3 border-2 rounded-xl transition-all duration-300 focus:outline-none resize-none ${
+                          focusedField === "note"
+                            ? "border-green-500 shadow-lg shadow-green-100"
+                            : "border-gray-200 hover:border-gray-300"
+                        }`}
+                      />
+                      {focusedField === "note" && (
+                        <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-green-500 to-emerald-500 animate-expand"></div>
+                      )}
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedProduct(null)}
+                        className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-all duration-300 transform hover:scale-105"
+                      >
+                        Batal
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <svg
+                              className="animate-spin h-5 w-5 text-white"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                              ></circle>
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                              ></path>
+                            </svg>
+                            Mengirim...
+                          </>
+                        ) : (
+                          <>
+                            <svg
+                              className="w-5 h-5"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+                            </svg>
+                            Kirim ke WhatsApp
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="text-center mt-12 scroll-animate">
             <Link
@@ -471,76 +837,37 @@ const Home = () => {
         </div>
       </section>
 
-      {/* CTA Section - Modern & Eye-catching */}
-      <section className="relative py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600"></div>
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4 scroll-animate">
+          <div className="max-w-5xl mx-auto bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 rounded-3xl p-12 text-center shadow-2xl">
+            <span className="inline-block mb-6 px-4 py-2 bg-white/20 text-white rounded-full font-semibold border border-white/30">
+              Mari Bekerja Sama
+            </span>
 
-        {/* Animated background elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-full h-full">
-            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-white rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-blob"></div>
-            <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-yellow-200 rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-            <div className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-pink-200 rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
-          </div>
-        </div>
-
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-6 inline-block scroll-animate">
-              <span className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold border border-white/30">
-                Mari Bekerja Sama
-              </span>
-            </div>
-
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white scroll-animate">
-              Siap Mengembangkan Bisnis Anda <br className="hidden md:block" />
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+              Siap Mengembangkan Bisnis Anda
+              <br />
               dengan Teknologi?
             </h2>
 
-            <p className="text-lg md:text-xl mb-10 text-blue-100 max-w-2xl mx-auto scroll-animate">
-              Konsultasikan kebutuhan sistem dan digitalisasi Anda bersama tim
-              profesional kami
+            <p className="text-lg text-blue-100 mb-10 max-w-2xl mx-auto">
+              Konsultasikan kebutuhan sistem, website, dan digitalisasi Anda
+              bersama tim profesional Kadilance.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center scroll-animate">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/contact"
-                className="group bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl inline-flex items-center justify-center"
+                className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-blue-600 hover:text-white transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
               >
-                Konsultasi Sekarang
-                <svg
-                  className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
+                Hubungi Sekarang
               </Link>
 
               <Link
                 to="/products"
-                className="group bg-transparent border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300 transform hover:scale-105 inline-flex items-center justify-center"
+                className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
               >
                 Lihat Portfolio
-                <svg
-                  className="w-5 h-5 ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
               </Link>
             </div>
           </div>
