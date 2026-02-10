@@ -103,8 +103,24 @@ ${form.note ? `\nCatatan: ${form.note}` : ""}`;
 
   return (
     <div className="overflow-hidden">
-      {/* Hero Section - Enhanced with animations */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-blue-700 to-purple-800 text-white overflow-hidden">
+      {/* Hero Section - With Background Image */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Image Container */}
+        <div className="absolute inset-0">
+          {/* Background Image - Replace src with your image path */}
+          <img
+            src="/images/hero-background.jpg"
+            alt="Hero Background"
+            className="w-full h-full object-cover"
+          />
+
+          {/* Overlay Gradient for better text readability */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-blue-800/70 to-purple-900/80"></div>
+
+          {/* Additional dark overlay on mobile for better readability */}
+          <div className="absolute inset-0 bg-black/20 md:bg-black/0"></div>
+        </div>
+
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-1/2 -left-1/4 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
@@ -128,24 +144,24 @@ ${form.note ? `\nCatatan: ${form.note}` : ""}`;
           ))}
         </div>
 
+        {/* Content */}
         <div
-          className={`container mx-auto px-4 text-center relative z-10 transition-all duration-1000 transform ${
+          className={`container mx-auto px-4 text-center relative z-10 text-white transition-all duration-1000 transform ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
           }`}
         >
-          <div className="mb-6 inline-block">
-          </div>
+          <div className="mb-6 inline-block"></div>
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 animate-slideUp">
-            Solusi Teknologi Modern
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 animate-slideUp drop-shadow-2xl">
+            Wujudkan Transformasi Digital {/* DIUBAH */}
             <br />
             <span className="bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">
-              Kadilance
+              Bersama Kadilance
             </span>
           </h1>
 
-          <p className="text-lg md:text-xl lg:text-2xl mb-10 text-blue-100 max-w-3xl mx-auto animate-slideUp animation-delay-200">
-            Mitra Profesional dalam Pengembangan Sistem dan Transformasi Digital
+          <p className="text-lg md:text-xl lg:text-2xl mb-10 text-blue-100 max-w-3xl mx-auto animate-slideUp animation-delay-200 drop-shadow-lg">
+            Layanan IT Profesional untuk UMKM, Sekolah, Instansi, dan Perusahaan
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-slideUp animation-delay-400">
@@ -153,7 +169,7 @@ ${form.note ? `\nCatatan: ${form.note}` : ""}`;
               to="/products"
               className="group bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl inline-flex items-center"
             >
-              Jelajahi Layanan Kami
+              Lihat Semua Layanan
               <svg
                 className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform"
                 fill="none"
@@ -189,32 +205,16 @@ ${form.note ? `\nCatatan: ${form.note}` : ""}`;
               </svg>
             </Link>
           </div>
-
-          {/* Scroll indicator */}
-          <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <svg
-              className="w-6 h-6 text-white opacity-50"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 14l-7 7m0 0l-7-7m7 7V3"
-              />
-            </svg>
-          </div>
         </div>
       </section>
 
-      {/* About Section - Modern Card Design */}
+      {/* About Section - New Structure with Original Design */}
       <section className="py-20 bg-white relative">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12 scroll-animate">
+            {/* Section Title - Centered */}
+            <div className="text-center mb-16 scroll-animate">
               <span className="text-blue-600 font-semibold text-sm uppercase tracking-wider">
                 Tentang Kami
               </span>
@@ -227,42 +227,64 @@ ${form.note ? `\nCatatan: ${form.note}` : ""}`;
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 items-center scroll-animate">
-              {/* Image Side */}
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl transform rotate-3 group-hover:rotate-6 transition-transform duration-300"></div>
-                <div className="relative bg-white rounded-2xl overflow-hidden shadow-xl">
-                  {company && company.logo_url ? (
-                    <img
-                      src={company.logo_url}
-                      alt="Kadilance Company"
-                      className="w-full h-96 object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-96 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
-                      <div className="text-center text-white">
-                        <svg
-                          className="w-24 h-24 mx-auto mb-4 opacity-80"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.5}
-                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                          />
-                        </svg>
-                        <h3 className="text-2xl font-bold">Kadilance</h3>
-                        <p className="text-blue-100">Solusi Teknologi Modern</p>
+            <div className="grid md:grid-cols-2 gap-12 items-center scroll-animate">
+              {/* Image Side - Left with Overlapping Grid Design */}
+              <div className="relative h-[500px]">
+                {/* Overlapping Layout - ALWAYS SHOW IMAGE */}
+                <div className="relative h-full">
+                  {/* Large Image - Bottom Left */}
+                  <div className="absolute bottom-0 left-0 w-3/4 h-4/5 z-10 group">
+                    <div className="relative h-full bg-white rounded-2xl shadow-2xl p-2">
+                      <div className="relative h-full overflow-hidden rounded-xl">
+                        <img
+                          src="/images/companyK.png"
+                          alt="Kadilance Company Main"
+                          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                       </div>
                     </div>
-                  )}
+                  </div>
+
+                  {/* Small Image - Top Right */}
+                  <div className="absolute top-0 right-0 w-1/2 h-3/5 z-20 group">
+                    <div className="relative h-full bg-white rounded-2xl shadow-2xl p-2">
+                      <div className="relative h-full overflow-hidden rounded-xl">
+                        <img
+                          src="/images/tim.png"
+                          alt="Kadilance Company Secondary"
+                          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                        {/* Floating Badge */}
+                        <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm px-4 py-3 rounded-xl shadow-lg">
+                          <div className="flex items-center space-x-2">
+                            <div className="relative">
+                              <div className="absolute inset-0 bg-green-400 rounded-full blur-sm animate-pulse"></div>
+                              <div className="relative w-3 h-3 bg-green-500 rounded-full ring-2 ring-white"></div>
+                            </div>
+                            <div>
+                              <p className="text-gray-800 font-bold text-sm">
+                                Kadilance
+                              </p>
+                              <p className="text-gray-500 text-xs">
+                                Trusted Partner
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Decorative Elements */}
+                  <div className="absolute -top-4 -left-4 w-20 h-20 border-t-4 border-l-4 border-blue-400/60 rounded-tl-3xl z-0"></div>
+                  <div className="absolute -bottom-4 -right-4 w-20 h-20 border-b-4 border-r-4 border-purple-400/60 rounded-br-3xl z-0"></div>
                 </div>
               </div>
 
-              {/* Content Side */}
+              {/* Content Side - Right (Original Cards Design) */}
               <div className="space-y-6">
                 <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                   <div className="flex items-start">
@@ -355,7 +377,7 @@ ${form.note ? `\nCatatan: ${form.note}` : ""}`;
               </div>
             </div>
 
-            {/* Stats Section */}
+            {/* Stats Section - Kept from Original */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 scroll-animate">
               <div className="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
                 <div className="text-4xl font-bold text-blue-600 mb-2">50+</div>
@@ -394,13 +416,13 @@ ${form.note ? `\nCatatan: ${form.note}` : ""}`;
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16 scroll-animate">
             <span className="text-blue-600 font-semibold text-sm uppercase tracking-wider">
-              Layanan Kami
+              Produk & Layanan Kami
             </span>
             <h2 className="text-4xl md:text-5xl font-bold mt-2 mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Layanan & Solusi Unggulan
+              Solusi Digital Terlengkap
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Solusi teknologi terbaik untuk mengembangkan bisnis Anda
+              Berbagai layanan pengembangan website dan aplikasi untuk kebutuhan bisnis Anda
             </p>
           </div>
 
@@ -684,7 +706,7 @@ ${form.note ? `\nCatatan: ${form.note}` : ""}`;
               to="/products"
               className="group inline-flex items-center text-blue-600 hover:text-blue-800 font-semibold text-lg"
             >
-              Lihat Seluruh Layanan
+              Lihat Semua Produk & Layanan
               <svg
                 className="w-5 h-5 ml-2 transform group-hover:translate-x-2 transition-transform"
                 fill="none"
@@ -708,14 +730,13 @@ ${form.note ? `\nCatatan: ${form.note}` : ""}`;
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 scroll-animate">
             <span className="text-blue-600 font-semibold text-sm uppercase tracking-wider">
-              Blog & Artikel
+              Insight & Tutorial
             </span>
             <h2 className="text-4xl md:text-5xl font-bold mt-2 mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Wawasan & Artikel Teknologi
+              Tips & Artikel Seputar IT
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Temukan informasi terkini seputar teknologi dan transformasi
-              digital
+              Update terbaru seputar teknologi, web development, dan digital marketing
             </p>
           </div>
 
