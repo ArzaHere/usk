@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-bold mb-4">Nama Perusahaan</h3>
+            <h3 className="text-xl font-bold mb-4">Kadilance</h3>
             <p className="text-gray-400 text-sm">
               Memberikan solusi terbaik untuk kebutuhan bisnis Anda dengan layanan berkualitas tinggi.
             </p>
@@ -21,7 +21,9 @@ const Footer = () => {
               <li><Link to="/" className="text-gray-400 hover:text-white transition">Home</Link></li>
               <li><Link to="/about" className="text-gray-400 hover:text-white transition">About</Link></li>
               <li><Link to="/profile" className="text-gray-400 hover:text-white transition">Profile</Link></li>
+              <li><Link to="/vision-mission" className="text-gray-400 hover:text-white transition">Visi & Misi</Link></li>
               <li><Link to="/products" className="text-gray-400 hover:text-white transition">Produk</Link></li>
+              <li><Link to="/contact" className="text-gray-400 hover:text-white transition">Kontak</Link></li>
             </ul>
           </div>
 
@@ -40,17 +42,17 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">Kontak</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
-              <li>Jl. Contoh No. 123</li>
+              <li>Jl. Prumpung Sawah</li>
               <li>Jakarta, Indonesia</li>
-              <li>Phone: +62 21 1234567</li>
-              <li>Email: info@perusahaan.com</li>
+              <li>Phone: +62 85711562563</li>
+              <li>Email: mukafiarzaqa@gmail.com</li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-gray-700 mt-8 pt-6 text-center">
           <p className="text-gray-400 text-sm">
-            © 2025 Nama Perusahaan. All rights reserved.
+            © 2026 Kadilance. All rights reserved.
           </p>
         </div>
       </div>

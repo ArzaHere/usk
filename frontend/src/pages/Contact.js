@@ -55,7 +55,7 @@ const Contact = () => {
     {
       id: 1,
       title: "Alamat",
-      value: company?.address || "Jl. Contoh No. 123, Jakarta, Indonesia",
+      value: "Jl. Prumpung Sawah, Jakarta, Indonesia",
       icon: (
         <svg
           className="w-6 h-6"
@@ -84,7 +84,7 @@ const Contact = () => {
     {
       id: 2,
       title: "Telepon",
-      value: company?.phone || "+62 21 1234567",
+      value: "+62 57 11562563",
       icon: (
         <svg
           className="w-6 h-6"
@@ -107,7 +107,7 @@ const Contact = () => {
     {
       id: 3,
       title: "Email",
-      value: company?.email || "mukafiarzaqa@gmail.com",
+      value: "mukafiarzaqa@gmail.com",
       icon: (
         <svg
           className="w-6 h-6"
